@@ -1,0 +1,43 @@
+::ng-deep .form-container nz-card .ant-card-body {
+  padding: 0;
+}
+
+nz-card {
+  margin-top: 24px;
+  border-radius: 6px;
+}
+
+nz-layout {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+nz-content {
+  min-height: 100vh;
+  max-width: 1200px;
+}
+
+.form-container {
+  display: flex;
+  justify-content: center;
+}
+
+.form-container nz-card {
+  box-shadow: -3px 3px 20px 0px #ccc;
+  max-width: 960px;
+  width: 960px;
+}
+
+.notes-container {
+  margin-top: 24px;
+}
+
+/* * Grid layout */
+.grid-config {
+  height: 120px;
+  font-size: 14px;
+  line-height: 120px;
+  background: #0092ff;
+  border-radius: 4px;
+}

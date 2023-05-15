@@ -1,0 +1,33 @@
+form {
+  padding: 8px;
+}
+
+nz-form-item {
+  margin-bottom: 0;
+}
+
+nz-form-item.expand:first-child {
+  margin-bottom: 12px;
+}
+
+.form-control-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+input,
+textarea {
+  border: none;
+  outline: none;
+  font-size: 16px;
+  padding: 2px 6px;
+}
+
+input:focus,
+textarea:focus {
+  box-shadow: none;
+}
+
+input.title {
+  font-size: 18px;
+}

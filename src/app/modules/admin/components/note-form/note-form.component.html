@@ -1,0 +1,44 @@
+<form
+  nz-form
+  nzLayout="vertical"
+  [formGroup]="noteForm"
+  (ngSubmit)="onSubmit()"
+>
+  <nz-form-item [class]="{ expand: expand }">
+    <nz-form-control>
+      <nz-input-group>
+        <input
+          nz-input
+          formControlName="title"
+          type="text"
+          (focus)="expand = true"
+          [placeholder]="expand ? 'Title' : 'Take a note...'"
+          [(ngModel)]="isEdit ? editData.title : noteForm.value.title"
+          class="title"
+        />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item *ngIf="isEdit || expand">
+    <nz-form-control nzHasFeedback nzErrorTip="">
+      <nz-textarea-count>
+        <textarea
+          formControlName="content"
+          nz-input
+          placeholder="Take a note..."
+          [nzAutosize]="{ minRows: 1, maxRows: 6 }"
+          [(ngModel)]="isEdit ? editData.content : noteForm.value.content"
+        ></textarea>
+      </nz-textarea-count>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item *ngIf="isEdit || expand" class="close-btn">
+    <nz-form-control>
+      <div class="form-control-actions">
+        <button nz-button nzType="primary">Close</button>
+      </div>
+    </nz-form-control>
+  </nz-form-item>
+</form>

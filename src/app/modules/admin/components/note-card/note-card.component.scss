@@ -1,0 +1,27 @@
+::ng-deep .note-card-container .ant-card-body {
+  padding: 12px;
+}
+
+nz-card {
+  border-radius: 6px;
+  border: 1px solid #cccccc88;
+}
+
+nz-card:hover .delete-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+[nz-icon] {
+  font-size: 18px;
+  color: red;
+}
+
+.delete-btn {
+  display: none;
+}
+
+.hight-light-text {
+  background-color: yellow;
+}

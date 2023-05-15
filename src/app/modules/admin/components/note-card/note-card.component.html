@@ -1,0 +1,60 @@
+<nz-card (click)="showModal()" class="note-card-container">
+  <div>
+    <h3 *ngIf="!data.title.includes(queryString); else hightLightTitle">
+      {{ data.title }}
+    </h3>
+    <ng-template #hightLightTitle
+      ><h3>
+        <span>{{
+          data.title | slice : 0 : data.title.indexOf(queryString)
+        }}</span
+        ><span class="hight-light-text">{{ queryString }}</span
+        ><span>{{
+          data.title
+            | slice : data.title.indexOf(queryString) + queryString.length
+        }}</span>
+      </h3></ng-template
+    >
+
+    <p *ngIf="!data.content.includes(queryString); else hightLightContent">
+      {{ data.content }}
+    </p>
+    <ng-template #hightLightContent
+      ><p>
+        <span>{{
+          data.content | slice : 0 : data.content.indexOf(queryString)
+        }}</span
+        ><span class="hight-light-text">{{ queryString }}</span
+        ><span>{{
+          data.content
+            | slice : data.content.indexOf(queryString) + queryString.length
+        }}</span>
+      </p></ng-template
+    >
+
+    <!-- <p class="hight-light-text">{{ queryString }}</p> -->
+    <button
+      nz-button
+      nzShape="circle"
+      class="delete-btn"
+      (click)="handleDeleteNote($event)"
+    >
+      <span nz-icon nzType="delete" nzTheme="outline"></span>
+    </button>
+  </div>
+</nz-card>
+
+<nz-modal
+  [(nzVisible)]="isVisible"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  [nzFooter]="null"
+>
+  <ng-container *nzModalContent>
+    <app-note-form
+      [isEdit]="true"
+      [data]="data"
+      (updateItemEvent)="handleOk()"
+    ></app-note-form>
+  </ng-container>
+</nz-modal>

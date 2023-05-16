@@ -20,6 +20,13 @@ export class NotesContainerComponent implements OnInit {
     this.getAllNotes();
   }
 
+  filterPinNotes(note: any) {
+    return note.isPin;
+  }
+  filterUnPinNotes(note: any) {
+    return !note.isPin;
+  }
+
   getAllNotes() {
     this.noteService.getAll().subscribe((res: any) => {
       this.noteService.changeNoteListContext(res);

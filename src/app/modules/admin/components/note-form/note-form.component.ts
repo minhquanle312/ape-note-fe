@@ -17,7 +17,7 @@ import { NoteService } from 'src/app/services/note/note.service';
   styleUrls: ['./note-form.component.scss'],
 })
 export class NoteFormComponent implements OnInit {
-  @Input() isEdit: boolean = false;
+  @Input() isEdit!: boolean;
   @Input('data') editData: any = null;
 
   @Output() updateItemEvent = new EventEmitter<any>();
@@ -30,17 +30,23 @@ export class NoteFormComponent implements OnInit {
   noteForm = new FormGroup({
     title: new FormControl('', Validators.required),
     content: new FormControl('', Validators.required),
+    isPin: new FormControl(false),
   });
 
   constructor(private noteService: NoteService, private eRef: ElementRef) {
     this.expand = this.isEdit;
-    console.log('constructor', this.isEdit, this.editData);
+
+    console.log('noteForm', this.editData, this.noteForm);
   }
 
   ngOnInit(): void {
     this.noteService.currentNoteList.subscribe(
       (noteList) => (this.notesList = noteList)
     );
+
+    if (this.editData) {
+      this.noteForm.controls.isPin.setValue(this.editData.isPin);
+    }
   }
 
   @HostListener('document:click', ['$event'])
@@ -58,9 +64,14 @@ export class NoteFormComponent implements OnInit {
     }
   }
 
+  togglePin(event: any) {
+    event.stopPropagation();
+    event.preventDefault();
+    this.noteForm.controls.isPin.setValue(!this.noteForm.get('isPin')?.value);
+  }
+
   onSubmit() {
     if (this.noteForm.valid) {
-      console.log(this.noteForm.value);
       if (this.editData) {
         this.noteService
           .updateOne(this.editData.id, this.noteForm.value)

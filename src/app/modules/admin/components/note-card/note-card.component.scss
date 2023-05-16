@@ -7,21 +7,40 @@ nz-card {
   border: 1px solid #cccccc88;
 }
 
-nz-card:hover .delete-btn {
+.card-title {
+  display: flex;
+
+  & h3 {
+    flex: 1;
+  }
+}
+
+.delete-btn,
+.toggle-pin-btn {
+  opacity: 0;
+
   display: flex;
   justify-content: center;
   align-items: center;
+
+  transition: opacity 0.15s ease-in-out;
 }
 
-[nz-icon] {
+nz-card:hover .delete-btn,
+nz-card:hover .toggle-pin-btn {
+  opacity: 1;
+}
+.delete-btn [nz-icon] {
   font-size: 18px;
   color: red;
 }
 
-.delete-btn {
-  display: none;
+.toggle-pin-btn [nz-icon],
+[nzType="pushpin"] {
+  font-size: 18px;
+  color: blue;
 }
 
-.hight-light-text {
+.high-light-text {
   background-color: yellow;
 }

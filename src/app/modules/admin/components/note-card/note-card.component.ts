@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Note } from 'src/app/interfaces/global.interface';
 import { NoteService } from 'src/app/services/note/note.service';
 // import { NoteService } from 'src/app/core/services/note.service';
 
@@ -46,12 +47,18 @@ export class NoteCardComponent implements OnInit {
     return this.noteService.deleteOne(this.data.id).subscribe(() => {
       this.deleteNoteEvent.emit(this.data.id);
     });
-    // return this.noteService.deleteNote(this.data.id).subscribe(() => {
-    //   this.deleteNoteEvent.emit(this.data.id);
+  }
 
-    //   this.noteService.changeNoteList(
-    //     this.noteList.filter((note) => note.id !== this.data.id)
-    //   );
-    // });
+  handleTogglePin(event: any) {
+    event.stopPropagation();
+    return this.noteService
+      .updateOne(this.data.id, {
+        isPin: !this.data.isPin,
+      })
+      .subscribe(() =>
+        this.noteService.getAll().subscribe((res: any) => {
+          this.noteService.changeNoteListContext(res);
+        })
+      );
   }
 }

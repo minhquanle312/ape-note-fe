@@ -29,5 +29,26 @@ textarea:focus {
 }
 
 input.title {
+  font-size: 20px;
+}
+
+// * Bottom bar
+.form-bar {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.toggle-pin-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & span {
+    color: blue;
+  }
+}
+
+[nz-icon] {
   font-size: 18px;
 }

@@ -34,6 +34,21 @@
     </nz-form-control>
   </nz-form-item>
 
+  <div class="form-bar" *ngIf="isEdit || expand">
+    <button
+      nz-button
+      nzShape="circle"
+      class="toggle-pin-btn"
+      (click)="togglePin($event)"
+    >
+      <span
+        nz-icon
+        nzType="pushpin"
+        [nzTheme]="noteForm.value.isPin ? 'fill' : 'outline'"
+      ></span>
+    </button>
+  </div>
+
   <nz-form-item *ngIf="isEdit || expand" class="close-btn">
     <nz-form-control>
       <div class="form-control-actions">

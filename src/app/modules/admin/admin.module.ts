@@ -25,10 +25,10 @@ import {
   DeleteOutline,
   StepBackwardOutline,
 } from '@ant-design/icons-angular/icons';
-import { HighLightStringPipe } from 'src/app/pipes/highlight-string.pipe';
-import { CallbackPipe } from 'src/app/pipes/callback.pipe';
-import { NoteActionsComponent } from './components/note-actions/note-actions.component';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { CallbackPipe } from 'src/app/pipes/callback.pipe';
+import { HighLightStringPipe } from 'src/app/pipes/highlight-string.pipe';
+import { NoteActionsComponent } from './components/note-actions/note-actions.component';
 
 const icons: any[] = [StepBackwardOutline, DeleteOutline];
 

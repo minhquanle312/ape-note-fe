@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
@@ -17,6 +17,8 @@ import { AppComponent } from './app.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { LoginComponent } from './components/login/login.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { TokenInterceptor } from './interceptors/token.interceptor';
+import { ApiInterceptor } from './interceptors/api.interceptor';
 
 const icons: any[] = [StepBackwardOutline, DeleteOutline];
 
@@ -38,7 +40,10 @@ const icons: any[] = [StepBackwardOutline, DeleteOutline];
     NzIconModule.forChild(icons),
     NzSpaceModule,
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -26,7 +26,7 @@ export class AuthService {
   }
 
   login({ email, password }: any) {
-    const userInfo = this.http.post('http://localhost:3000/auth/login', {
+    const userInfo = this.http.post('/auth/login', {
       email,
       password,
     });

@@ -9,6 +9,7 @@ const routes: Routes = [
     component: AdminDashboardComponent,
     children: [
       { path: 'home', component: HomeComponent },
+      { path: 'shared-with-me', component: HomeComponent },
       { path: '', redirectTo: '/admin/home', pathMatch: 'full' },
     ],
   },

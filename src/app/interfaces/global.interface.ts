@@ -9,3 +9,20 @@ export interface Note {
   content?: string;
   isPin?: boolean;
 }
+
+export interface ObservableError {
+  error: {
+    error: string;
+    message: string;
+    statusCode: number;
+  };
+  name: string;
+  ok: boolean;
+  status: number;
+  statusText: string;
+}
+
+export enum NoteType {
+  owner = 'currentUserNote',
+  shared = 'sharedWithMe',
+}

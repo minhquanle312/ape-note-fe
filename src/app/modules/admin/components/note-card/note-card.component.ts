@@ -11,6 +11,7 @@ import { NoteService } from 'src/app/services/note/note.service';
 })
 export class NoteCardComponent implements OnInit {
   @Input() data: any;
+  @Input() isOwner!: boolean;
   @Output() deleteNoteEvent = new EventEmitter<any>();
 
   queryString: string = '';
@@ -24,6 +25,8 @@ export class NoteCardComponent implements OnInit {
   }
 
   isVisible = false;
+  showMembersControl = false;
+
   @Input() formData: any;
 
   showModal(): void {
@@ -34,23 +37,14 @@ export class NoteCardComponent implements OnInit {
     this.isVisible = false;
   }
 
-  handleOk(): void {
-    this.isVisible = false;
-  }
-
-  handleCancel(): void {
-    this.isVisible = false;
-  }
-
-  handleDeleteNote(event: any) {
-    event.stopPropagation();
+  handleDeleteNote() {
     return this.noteService.deleteOne(this.data.id).subscribe(() => {
       this.deleteNoteEvent.emit(this.data.id);
     });
   }
 
-  handleTogglePin(event: any) {
-    event.stopPropagation();
+  handleTogglePin() {
+    // event.stopPropagation();
     return this.noteService
       .updateOne(this.data.id, {
         isPin: !this.data.isPin,

@@ -8,7 +8,11 @@ import {
   Output,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Note } from 'src/app/interfaces/global.interface';
+import {
+  Note,
+  NoteType,
+  ObservableError,
+} from 'src/app/interfaces/global.interface';
 import { NoteService } from 'src/app/services/note/note.service';
 
 @Component({
@@ -19,10 +23,14 @@ import { NoteService } from 'src/app/services/note/note.service';
 export class NoteFormComponent implements OnInit {
   @Input() isEdit!: boolean;
   @Input('data') editData: any = null;
+  @Input() isOwner!: boolean;
 
   @Output() updateItemEvent = new EventEmitter<any>();
 
   notesList: Note[] = [];
+  members: any[] = [];
+  email: string = '';
+  addMemberError: string = '';
 
   // TODO: try use FromGroup and FormControl to create form
   // form!: UntypedFormGroup;
@@ -35,8 +43,6 @@ export class NoteFormComponent implements OnInit {
 
   constructor(private noteService: NoteService, private eRef: ElementRef) {
     this.expand = this.isEdit;
-
-    console.log('noteForm', this.editData, this.noteForm);
   }
 
   ngOnInit(): void {
@@ -46,6 +52,9 @@ export class NoteFormComponent implements OnInit {
 
     if (this.editData) {
       this.noteForm.controls.isPin.setValue(this.editData.isPin);
+      this.noteService.getOne(this.editData.id).subscribe((res: any) => {
+        this.members = res.members;
+      });
     }
   }
 
@@ -65,9 +74,14 @@ export class NoteFormComponent implements OnInit {
   }
 
   togglePin(event: any) {
-    event.stopPropagation();
     event.preventDefault();
     this.noteForm.controls.isPin.setValue(!this.noteForm.get('isPin')?.value);
+  }
+
+  handleDelete() {
+    return this.noteService.deleteOne(this.editData.id).subscribe(() => {
+      this.noteService.refreshNotes();
+    });
   }
 
   onSubmit() {
@@ -76,15 +90,13 @@ export class NoteFormComponent implements OnInit {
         this.noteService
           .updateOne(this.editData.id, this.noteForm.value)
           .subscribe(() =>
-            this.noteService.getAll().subscribe((res: any) => {
-              this.noteService.changeNoteListContext(res);
-            })
+            this.noteService.refreshNotes(
+              this.isOwner ? NoteType.owner : NoteType.shared
+            )
           );
       } else {
         this.noteService.create(this.noteForm.value).subscribe(() => {
-          this.noteService.getAll().subscribe((res: any) => {
-            this.noteService.changeNoteListContext(res);
-          });
+          this.noteService.refreshNotes();
         });
         this.noteForm.reset();
         this.expand = this.isEdit || false;
@@ -97,5 +109,36 @@ export class NoteFormComponent implements OnInit {
         }
       });
     }
+  }
+
+  addMember(event: any) {
+    event.stopPropagation();
+    event.preventDefault();
+    return this.noteService
+      .addMemberToNote(this.editData.id, this.email, 'user')
+      .subscribe(
+        (res: any) => {
+          const { id, role, user } = res;
+          this.members.push({ id, role, user });
+          this.email = '';
+          this.addMemberError = '';
+        },
+        (error: ObservableError) => {
+          this.addMemberError = error.error.message;
+        }
+      );
+  }
+
+  removeMember(event: any, memberId: number) {
+    event.stopPropagation();
+    event.preventDefault();
+
+    return this.noteService
+      .removeMemberFromNote(memberId)
+      .subscribe((res: any) => {
+        this.members = this.members.filter(
+          (member: any) => member.id !== memberId
+        );
+      });
   }
 }

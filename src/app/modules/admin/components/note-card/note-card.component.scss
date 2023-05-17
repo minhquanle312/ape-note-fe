@@ -7,38 +7,13 @@ nz-card {
   border: 1px solid #cccccc88;
 }
 
-.card-title {
-  display: flex;
-
-  & h3 {
-    flex: 1;
-  }
-}
-
-.delete-btn,
-.toggle-pin-btn {
+app-note-actions.note-actions {
   opacity: 0;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
   transition: opacity 0.15s ease-in-out;
 }
 
-nz-card:hover .delete-btn,
-nz-card:hover .toggle-pin-btn {
+nz-card:hover app-note-actions.note-actions {
   opacity: 1;
-}
-.delete-btn [nz-icon] {
-  font-size: 18px;
-  color: red;
-}
-
-.toggle-pin-btn [nz-icon],
-[nzType="pushpin"] {
-  font-size: 18px;
-  color: blue;
 }
 
 .high-light-text {

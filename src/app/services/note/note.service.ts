@@ -1,8 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CreateNote, Note } from 'src/app/interfaces/global.interface';
+import {
+  CreateNote,
+  Note,
+  NoteType,
+} from 'src/app/interfaces/global.interface';
 import { AuthService } from '../auth/auth.service';
 import { BehaviorSubject } from 'rxjs';
+import { MemberRole } from 'src/app/types/type.global';
 
 @Injectable({
   providedIn: 'root',
@@ -42,9 +47,15 @@ export class NoteService {
     });
   }
 
-  getAll() {
-    return this.http.get('http://localhost:3000/notes/currentUserNote', {
+  getAll(type: NoteType = NoteType.owner) {
+    return this.http.get(`http://localhost:3000/notes/${type}`, {
       headers: this.headers,
+    });
+  }
+
+  refreshNotes(type?: NoteType) {
+    this.getAll(type).subscribe((res: any) => {
+      this.changeNoteListContext(res);
     });
   }
 
@@ -69,6 +80,22 @@ export class NoteService {
 
   deleteOne(id: number) {
     return this.http.delete(`http://localhost:3000/notes/${id}`, {
+      headers: this.headers,
+    });
+  }
+
+  addMemberToNote(noteId: number, email: string, role: MemberRole) {
+    return this.http.post(
+      `http://localhost:3000/notes/${noteId}/members`,
+      { role, email },
+      {
+        headers: this.headers,
+      }
+    );
+  }
+
+  removeMemberFromNote(id: number) {
+    return this.http.delete(`http://localhost:3000/notes/members/${id}`, {
       headers: this.headers,
     });
   }

@@ -1,4 +1,7 @@
-<h5 nz-typography *ngIf="(notesList | callback : filterPinNotes).length > 0">
+<h5
+  nz-typography
+  *ngIf="isHomePage && (notesList | callback : filterPinNotes).length > 0"
+>
   PINNED
 </h5>
 <div nz-row [nzGutter]="[16, 16]" class="pin-notes-container">
@@ -11,14 +14,18 @@
     <app-note-card
       [data]="note"
       (deleteNoteEvent)="handleDeleteNote()"
+      [isOwner]="isHomePage"
     ></app-note-card>
   </div>
 </div>
 
-<h5 nz-typography *ngIf="(notesList | callback : filterUnPinNotes).length > 0">
+<h5
+  nz-typography
+  *ngIf="isHomePage && (notesList | callback : filterUnPinNotes).length > 0"
+>
   OTHERS
 </h5>
-<div nz-row [nzGutter]="[16, 16]">
+<div nz-row [nzGutter]="[16, 16]" *ngIf="isHomePage">
   <div
     nz-col
     class="gutter-row"

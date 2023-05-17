@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Note } from 'src/app/interfaces/global.interface';
+import { Router } from '@angular/router';
+import { Note, NoteType } from 'src/app/interfaces/global.interface';
 import { NoteService } from 'src/app/services/note/note.service';
 
 @Component({
@@ -9,31 +10,34 @@ import { NoteService } from 'src/app/services/note/note.service';
 })
 export class NotesContainerComponent implements OnInit {
   notesList: Note[] = [];
+  isHomePage!: boolean;
 
-  constructor(private noteService: NoteService) {}
+  constructor(private router: Router, private noteService: NoteService) {}
 
   ngOnInit(): void {
     this.noteService.currentNoteList.subscribe(
       (noteList) => (this.notesList = noteList)
     );
 
-    this.getAllNotes();
+    this.getCurrentUrl();
+
+    this.noteService.refreshNotes(
+      this.isHomePage ? NoteType.owner : NoteType.shared
+    );
+  }
+
+  getCurrentUrl() {
+    this.isHomePage = this.router.url.includes('home');
   }
 
   filterPinNotes(note: any) {
-    return note.isPin;
+    return this?.isHomePage ? note.isPin : note;
   }
   filterUnPinNotes(note: any) {
     return !note.isPin;
   }
 
-  getAllNotes() {
-    this.noteService.getAll().subscribe((res: any) => {
-      this.noteService.changeNoteListContext(res);
-    });
-  }
-
   handleDeleteNote() {
-    this.getAllNotes();
+    this.noteService.refreshNotes();
   }
 }

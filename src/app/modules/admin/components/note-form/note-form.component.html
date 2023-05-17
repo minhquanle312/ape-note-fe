@@ -34,25 +34,58 @@
     </nz-form-control>
   </nz-form-item>
 
-  <div class="form-bar" *ngIf="isEdit || expand">
-    <button
-      nz-button
-      nzShape="circle"
-      class="toggle-pin-btn"
-      (click)="togglePin($event)"
-    >
-      <span
-        nz-icon
-        nzType="pushpin"
-        [nzTheme]="noteForm.value.isPin ? 'fill' : 'outline'"
-      ></span>
-    </button>
-  </div>
-
   <nz-form-item *ngIf="isEdit || expand" class="close-btn">
     <nz-form-control>
       <div class="form-control-actions">
-        <button nz-button nzType="primary">Close</button>
+        <app-note-actions
+          [data]="noteForm.value"
+          class="actions-bar"
+          (onDelete)="handleDelete()"
+          (onTogglePin)="togglePin($event)"
+          [hideDeleteBtn]="!isOwner"
+          [hideTogglePinBtn]="!isOwner"
+        ></app-note-actions>
+        <button nz-button nzType="primary">
+          {{ isEdit ? "Save" : "Close" }}
+        </button>
+      </div>
+      <div class="note-members-container">
+        <div *ngFor="let user of members" class="note-member">
+          <span nz-icon nzType="user" nzTheme="outline"></span>
+          <p nz-typography>{{ user.user.email }}</p>
+          <button
+            nz-button
+            nzShape="circle"
+            class="delete-btn"
+            (click)="removeMember($event, user.id)"
+          >
+            <span nz-icon nzType="close" nzTheme="outline"></span>
+          </button>
+        </div>
+        <div class="note-member">
+          <span nz-icon nzType="user-add" nzTheme="outline"></span>
+          <div>
+            <input
+              type="text"
+              nz-input
+              placeholder="Enter email to share note"
+              [(ngModel)]="email"
+              [ngModelOptions]="{ standalone: true }"
+            />
+            <p *ngIf="addMemberError" class="error-message">
+              {{ addMemberError }}
+            </p>
+          </div>
+
+          <button
+            nz-button
+            nzShape="circle"
+            class="add-member-btn"
+            (click)="addMember($event)"
+          >
+            <span nz-icon nzType="check" nzTheme="outline"></span>
+          </button>
+        </div>
       </div>
     </nz-form-control>
   </nz-form-item>

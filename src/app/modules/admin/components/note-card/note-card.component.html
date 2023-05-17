@@ -1,22 +1,8 @@
 <nz-card (click)="showModal()" class="note-card-container">
   <div>
-    <div class="card-title">
-      <h3 *ngIf="!data.title.includes(queryString); else hightLightTitle">
-        {{ data.title }}
-      </h3>
-      <button
-        nz-button
-        nzShape="circle"
-        class="toggle-pin-btn"
-        (click)="handleTogglePin($event)"
-      >
-        <span
-          nz-icon
-          nzType="pushpin"
-          [nzTheme]="data.isPin ? 'fill' : 'outline'"
-        ></span>
-      </button>
-    </div>
+    <h3 *ngIf="!data.title.includes(queryString); else hightLightTitle">
+      {{ data.title }}
+    </h3>
     <ng-template #hightLightTitle
       ><h3>
         <span>{{
@@ -46,36 +32,28 @@
       </p></ng-template
     >
 
-    <button
-      nz-button
-      nzShape="circle"
-      class="delete-btn"
-      (click)="handleDeleteNote($event)"
-    >
-      <span nz-icon nzType="delete" nzTheme="outline"></span>
-    </button>
+    <app-note-actions
+      [data]="data"
+      (onDelete)="handleDeleteNote()"
+      (onTogglePin)="handleTogglePin()"
+      [hideDeleteBtn]="!isOwner"
+      [hideTogglePinBtn]="!isOwner"
+      class="note-actions"
+    ></app-note-actions>
   </div>
 </nz-card>
 
 <nz-modal
   [(nzVisible)]="isVisible"
-  (nzOnCancel)="handleCancel()"
-  (nzOnOk)="handleOk()"
+  (nzOnCancel)="closeModal()"
   [nzFooter]="null"
-  [nzCancelDisabled]="false"
 >
   <ng-container *nzModalContent>
     <app-note-form
       [isEdit]="true"
       [data]="data"
-      (updateItemEvent)="handleOk()"
+      (updateItemEvent)="closeModal()"
+      [isOwner]="isOwner"
     ></app-note-form>
   </ng-container>
-  <!-- <ng-template #closeButton>
-    <span
-      nz-icon
-      nzType="pushpin"
-      [nzTheme]="data.isPin ? 'fill' : 'outline'"
-    ></span
-  ></ng-template> -->
 </nz-modal>

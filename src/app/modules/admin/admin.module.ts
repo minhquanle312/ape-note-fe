@@ -27,6 +27,8 @@ import {
 } from '@ant-design/icons-angular/icons';
 import { HighLightStringPipe } from 'src/app/pipes/highlight-string.pipe';
 import { CallbackPipe } from 'src/app/pipes/callback.pipe';
+import { NoteActionsComponent } from './components/note-actions/note-actions.component';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
 
 const icons: any[] = [StepBackwardOutline, DeleteOutline];
 
@@ -40,6 +42,7 @@ const icons: any[] = [StepBackwardOutline, DeleteOutline];
     NoteCardComponent,
     HighLightStringPipe,
     CallbackPipe,
+    NoteActionsComponent,
   ],
   imports: [
     CommonModule,
@@ -55,6 +58,7 @@ const icons: any[] = [StepBackwardOutline, DeleteOutline];
     NzPageHeaderModule,
     NzSpaceModule,
     NzTypographyModule,
+    NzMenuModule,
     NzIconModule.forChild(icons),
   ],
 })

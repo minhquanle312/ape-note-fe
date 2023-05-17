@@ -1,0 +1,34 @@
+<div class="actions-bar">
+  <button
+    nz-button
+    nzShape="circle"
+    class="delete-btn"
+    (click)="onClickDelete($event)"
+    *ngIf="!hideDeleteBtn"
+  >
+    <span nz-icon nzType="delete" nzTheme="outline"></span>
+  </button>
+
+  <button
+    nz-button
+    nzShape="circle"
+    (click)="onClickAddMember($event)"
+    *ngIf="!hideAddMemberBtn"
+  >
+    <span nz-icon nzType="user-add" nzTheme="outline"></span>
+  </button>
+
+  <button
+    nz-button
+    nzShape="circle"
+    class="toggle-pin-btn"
+    (click)="onClickTogglePin($event)"
+    *ngIf="!hideTogglePinBtn"
+  >
+    <span
+      nz-icon
+      nzType="pushpin"
+      [nzTheme]="data && data.isPin ? 'fill' : 'outline'"
+    ></span>
+  </button>
+</div>

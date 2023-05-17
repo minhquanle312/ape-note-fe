@@ -18,6 +18,10 @@ nz-content {
   max-width: 1200px;
 }
 
+[nz-menu-item] a {
+  display: block;
+}
+
 .form-container {
   display: flex;
   justify-content: center;

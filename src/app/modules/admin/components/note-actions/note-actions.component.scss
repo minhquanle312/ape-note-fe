@@ -1,0 +1,22 @@
+.actions-bar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+button[nz-button]:has([nz-icon]) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.delete-btn [nz-icon] {
+  font-size: 18px;
+  color: red;
+}
+
+.toggle-pin-btn [nz-icon],
+[nzType="pushpin"] {
+  font-size: 18px;
+  color: blue;
+}
